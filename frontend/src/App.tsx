@@ -119,6 +119,7 @@ const App: React.FC = () => {
   const fetchWeather = async () => {
     if (!selectedLocation) return;
 
+    setShowSuggestions(false);
     setLoading(true);
     setError('');
 
@@ -146,6 +147,7 @@ const App: React.FC = () => {
     setQuery(location.name);
     setSuggestions([]);
     setShowSuggestions(false);
+    fetchWeather();
   };
 
   //==================================================================================================================
@@ -156,7 +158,6 @@ const App: React.FC = () => {
         <h1>Nimbus Weather App</h1>
         <div className="logo-container">
         <img src="/vite.svg" className="logo" alt="Vite logo" />
-        <img src="/react.svg" className="logo react" alt="React logo" />
         </div>
       </header>
       
