@@ -1,3 +1,4 @@
+// Nimbus\frontend\src\App.tsx
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import './App.css';
@@ -176,7 +177,7 @@ const App: React.FC = () => {
                 className="weather-icon"
               />
               <div className="weather-details">
-                <p className="temperature">{weatherData.current.main.temp.toFixed(1)}°C</p>
+                <p className="temperature">{weatherData.current.main.temp.toFixed(1)}°F</p>
                 <p className="description">{weatherData.current.weather[0].description}</p>
                 <p className="humidity">Humidity: {weatherData.current.main.humidity}%</p>
               </div>

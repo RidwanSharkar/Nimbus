@@ -61,7 +61,7 @@ def get_weather():
     if not lat or not lon or not city or not country:
         return jsonify({"error": "Latitude, longitude, city, and country parameters are required"}), 400
 
-    weather_url = f"{BASE_URL}?lat={lat}&lon={lon}&units=metric&appid={OPENWEATHERMAP_API_KEY}"
+    weather_url = f"{BASE_URL}?lat={lat}&lon={lon}&units=imperial&appid={OPENWEATHERMAP_API_KEY}"
     weather_response = requests.get(weather_url)
     
     if weather_response.status_code != 200:
