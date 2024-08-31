@@ -1,3 +1,4 @@
+# Nimbus\backend\app.py
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import requests
@@ -9,11 +10,7 @@ BASE_URL = "https://api.openweathermap.org/data/2.5/forecast"
 load_dotenv('.flaskenv')
 
 app = Flask(__name__)
-CORS(app) 
-
-
-
-
+CORS(app)
 
 @app.route('/')
 def home():
@@ -22,10 +19,12 @@ def home():
 @app.route('/api/weather')
 def get_weather():
     city = request.args.get('city')
-    if not city:
-        return jsonify({"error": "City parameter is required"}), 400
+    country = request.args.get('country')
+    
+    if not city or not country:
+        return jsonify({"error": "Both city and country parameters are required"}), 400
 
-    weather_url = f"{BASE_URL}?q={city}&units=metric&appid={OPENWEATHERMAP_API_KEY}"
+    weather_url = f"{BASE_URL}?q={city},{country}&units=metric&appid={OPENWEATHERMAP_API_KEY}"
     weather_response = requests.get(weather_url)
     
     if weather_response.status_code != 200:
@@ -42,7 +41,7 @@ def get_weather():
             "weather": weather_data['list'][0]['weather']
         },
         "forecast": {
-            "list": weather_data['list'][:5]  # Get forecast for the next 5 periods
+            "list": weather_data['list'][:5]  # forecast next 5
         }
     }
 
