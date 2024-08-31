@@ -167,7 +167,7 @@ const App: React.FC = () => {
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Enter location"
+            placeholder="Enter City to start"
             onFocus={() => setShowSuggestions(true)}
           />
           {showSuggestions && suggestions.length > 0 && (
