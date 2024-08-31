@@ -1,9 +1,16 @@
 // Nimbus\frontend\src\App.tsx
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import './App.css';
 
-
+interface Location {
+  name: string;
+  lat: number;
+  lon: number;
+  country: string;
+  state?: string;
+  city: string;
+}
 
 interface WeatherData {
   current: {
@@ -30,21 +37,100 @@ interface WeatherData {
   };
 }
 
+/*=====================================================================================================================*/
+/*=====================================================================================================================*/
+
 const App: React.FC = () => {
-  const [city, setCity] = useState('');
-  const [country, setCountry] = useState('');
+  const backendUrl = import.meta.env.VITE_REACT_APP_BACKEND_URL || 'http://localhost:5000';
+  
+
+  const [query, setQuery] = useState('');
+  const [suggestions, setSuggestions] = useState<Location[]>([]);
+  const [selectedLocation, setSelectedLocation] = useState<Location | null>(null);
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const suggestionRef = useRef<HTMLUListElement>(null);
+
+  const formatLocationName = (location: Omit<Location, 'city'>): string => {
+    const parts = [location.name];
+    if (location.state) parts.push(location.state);
+    parts.push(location.country);
+    return parts.filter(Boolean).join(', ');
+  };
+
+  //==================================================================================================================
+
+  useEffect(() => {
+    const fetchSuggestions = async () => {
+      if (query.length < 3) {
+        setSuggestions([]);
+        return;
+      }
+
+      try {
+        const response = await axios.get<Omit<Location, 'city'>[]>(`${backendUrl}/api/location-suggestions?query=${query}`);
+        const formattedSuggestions: Location[] = response.data.map((suggestion) => ({
+          ...suggestion,
+          city: suggestion.name.split(',')[0].trim(),
+          name: `${suggestion.name}${suggestion.state ? `, ${suggestion.state}` : ''}, ${suggestion.country}`
+        }));
+        setSuggestions(formattedSuggestions);
+        setShowSuggestions(true);
+      } catch (err) {
+        console.error('Failed to fetch suggestions:', err);
+      }
+    };
+
+    const timeoutId = setTimeout(fetchSuggestions, 300);
+    return () => clearTimeout(timeoutId);
+  }, [query, backendUrl]);
+
+  //==================================================================================================================
+
+  useEffect(() => {
+    const fetchSuggestions = async () => {
+      if (query.length < 3) {
+        setSuggestions([]);
+        return;
+      }
+
+      try {
+        const response = await axios.get<Omit<Location, 'city'>[]>(`${backendUrl}/api/location-suggestions?query=${query}`);
+        const formattedSuggestions: Location[] = response.data.map((suggestion) => ({
+          ...suggestion,
+          city: suggestion.name.split(',')[0].trim(),
+          name: formatLocationName(suggestion)
+        }));
+        setSuggestions(formattedSuggestions);
+        setShowSuggestions(true);
+      } catch (err) {
+        console.error('Failed to fetch suggestions:', err);
+      }
+    };
+
+    const timeoutId = setTimeout(fetchSuggestions, 300);
+    return () => clearTimeout(timeoutId);
+  }, [query, backendUrl]);
+
+  //==================================================================================================================
 
   const fetchWeather = async () => {
+    if (!selectedLocation) return;
+
     setLoading(true);
     setError('');
 
-    const backendUrl = import.meta.env.VITE_REACT_APP_BACKEND_URL || 'http://localhost:5000';
-
     try {
-      const response = await axios.get(`${backendUrl}/api/weather?city=${city}&country=${country}`);
+      const response = await axios.get(`${backendUrl}/api/weather`, {
+        params: {
+          lat: selectedLocation.lat,
+          lon: selectedLocation.lon,
+          city: selectedLocation.city,
+          country: selectedLocation.country
+        }
+      });
       setWeatherData(response.data);
     } catch (err) {
       setError('Failed to fetch weather data');
@@ -53,39 +139,54 @@ const App: React.FC = () => {
     setLoading(false);
   };
 
+  //==================================================================================================================
+
+  const handleSuggestionClick = (location: Location) => {
+    setSelectedLocation(location);
+    setQuery(location.name);
+    setSuggestions([]);
+    setShowSuggestions(false);
+  };
+
+  //==================================================================================================================
+
   return (
     <div className="App">
-      <header>
+     <header>
         <h1>Nimbus Weather App</h1>
         <div className="logo-container">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-          <img src="/react.svg" className="logo react" alt="React logo" />
+        <img src="/vite.svg" className="logo" alt="Vite logo" />
+        <img src="/react.svg" className="logo react" alt="React logo" />
         </div>
       </header>
-
+      
       <main>
         <div className="search-container">
           <input
             type="text"
-            value={city}
-            onChange={(e) => setCity(e.target.value)}
-            placeholder="Enter city name"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Enter location"
+            onFocus={() => setShowSuggestions(true)}
           />
-          <input
-            type="text"
-            value={country}
-            onChange={(e) => setCountry(e.target.value)}
-            placeholder="Enter country name"
-          />
-          <button onClick={fetchWeather}>Get Weather</button>
+          {showSuggestions && suggestions.length > 0 && (
+            <ul className="suggestions-dropdown" ref={suggestionRef}>
+              {suggestions.map((suggestion, index) => (
+                <li key={index} onClick={() => handleSuggestionClick(suggestion)}>
+                  {suggestion.name}
+                </li>
+              ))}
+            </ul>
+          )}
+          <button onClick={fetchWeather} disabled={!selectedLocation}>Get Weather</button>
         </div>
 
         {loading && <p>Loading...</p>}
         {error && <p className="error">{error}</p>}
 
-        {weatherData && (
+        {weatherData && selectedLocation && (
           <div className="weather-info">
-            <h2>Current Weather in {city}, {country}</h2>
+            <h2>Current Weather in {selectedLocation.city}, {selectedLocation.country}</h2>
             <div className="current-weather">
               <img
                 src={`http://openweathermap.org/img/w/${weatherData.current.weather[0].icon}.png`}

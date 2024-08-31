@@ -36,10 +36,13 @@ def get_location_suggestions():
 
     suggestions = response.json()
     formatted_suggestions = [
-        {
-            "name": f"{loc['name']}, {loc.get('state', '')}, {loc['country']}",
+        {       
+            "name": loc['name'],
             "lat": loc['lat'],
-            "lon": loc['lon']
+            "lon": loc['lon'],
+            "country": loc['country'],
+            "state": loc.get('state', ''),
+            "city": loc['name']
         }
         for loc in suggestions
     ]
@@ -50,13 +53,15 @@ def get_location_suggestions():
 
 @app.route('/api/weather')
 def get_weather():
+    lat = request.args.get('lat')
+    lon = request.args.get('lon')
     city = request.args.get('city')
     country = request.args.get('country')
-    
-    if not city or not country:
-        return jsonify({"error": "Both city and country parameters are required"}), 400
 
-    weather_url = f"{BASE_URL}?q={city},{country}&units=metric&appid={OPENWEATHERMAP_API_KEY}"
+    if not lat or not lon or not city or not country:
+        return jsonify({"error": "Latitude, longitude, city, and country parameters are required"}), 400
+
+    weather_url = f"{BASE_URL}?lat={lat}&lon={lon}&units=metric&appid={OPENWEATHERMAP_API_KEY}"
     weather_response = requests.get(weather_url)
     
     if weather_response.status_code != 200:
@@ -73,7 +78,16 @@ def get_weather():
             "weather": weather_data['list'][0]['weather']
         },
         "forecast": {
-            "list": weather_data['list'][:5]  # forecast next 5
+            "list": [
+                {
+                    "dt_txt": forecast['dt_txt'],
+                    "main": {
+                        "temp": forecast['main']['temp']
+                    },
+                    "weather": forecast['weather']
+                }
+                for forecast in weather_data['list'][:5]
+            ]
         }
     }
 
