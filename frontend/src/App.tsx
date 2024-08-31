@@ -1,4 +1,3 @@
-// Nimbus\frontend\src\App.tsx
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import './App.css';
@@ -37,12 +36,10 @@ interface WeatherData {
   };
 }
 
-/*=====================================================================================================================*/
-/*=====================================================================================================================*/
+/*==========================================================================================================================*/
 
 const App: React.FC = () => {
   const backendUrl = import.meta.env.VITE_REACT_APP_BACKEND_URL || 'http://localhost:5000';
-  
 
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState<Location[]>([]);
@@ -52,6 +49,8 @@ const App: React.FC = () => {
   const [error, setError] = useState('');
   const [showSuggestions, setShowSuggestions] = useState(false);
   const suggestionRef = useRef<HTMLUListElement>(null);
+
+  //==================================================================================================================
 
   const formatLocationName = (location: Omit<Location, 'city'>): string => {
     const parts = [location.name];
@@ -68,34 +67,6 @@ const App: React.FC = () => {
         setSuggestions([]);
         return;
       }
-
-      try {
-        const response = await axios.get<Omit<Location, 'city'>[]>(`${backendUrl}/api/location-suggestions?query=${query}`);
-        const formattedSuggestions: Location[] = response.data.map((suggestion) => ({
-          ...suggestion,
-          city: suggestion.name.split(',')[0].trim(),
-          name: `${suggestion.name}${suggestion.state ? `, ${suggestion.state}` : ''}, ${suggestion.country}`
-        }));
-        setSuggestions(formattedSuggestions);
-        setShowSuggestions(true);
-      } catch (err) {
-        console.error('Failed to fetch suggestions:', err);
-      }
-    };
-
-    const timeoutId = setTimeout(fetchSuggestions, 300);
-    return () => clearTimeout(timeoutId);
-  }, [query, backendUrl]);
-
-  //==================================================================================================================
-
-  useEffect(() => {
-    const fetchSuggestions = async () => {
-      if (query.length < 3) {
-        setSuggestions([]);
-        return;
-      }
-
       try {
         const response = await axios.get<Omit<Location, 'city'>[]>(`${backendUrl}/api/location-suggestions?query=${query}`);
         const formattedSuggestions: Location[] = response.data.map((suggestion) => ({
@@ -109,16 +80,13 @@ const App: React.FC = () => {
         console.error('Failed to fetch suggestions:', err);
       }
     };
-
     const timeoutId = setTimeout(fetchSuggestions, 300);
     return () => clearTimeout(timeoutId);
   }, [query, backendUrl]);
 
   //==================================================================================================================
 
-  const fetchWeather = async () => {
-    if (!selectedLocation) return;
-
+  const fetchWeather = async (location: Location) => {
     setShowSuggestions(false);
     setLoading(true);
     setError('');
@@ -126,10 +94,10 @@ const App: React.FC = () => {
     try {
       const response = await axios.get(`${backendUrl}/api/weather`, {
         params: {
-          lat: selectedLocation.lat,
-          lon: selectedLocation.lon,
-          city: selectedLocation.city,
-          country: selectedLocation.country
+          lat: location.lat,
+          lon: location.lon,
+          city: location.city,
+          country: location.country
         }
       });
       setWeatherData(response.data);
@@ -147,17 +115,31 @@ const App: React.FC = () => {
     setQuery(location.name);
     setSuggestions([]);
     setShowSuggestions(false);
-    fetchWeather();
+    fetchWeather(location);
   };
+
+  //==================================================================================================================
+
+    useEffect(() => {
+      const handleClickOutside = (event: MouseEvent) => {
+        if (suggestionRef.current && !suggestionRef.current.contains(event.target as Node)) {
+          setShowSuggestions(false);
+        }
+      };
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+      };
+    }, []);
 
   //==================================================================================================================
 
   return (
     <div className="App">
-     <header>
-        <h1>Nimbus Weather App</h1>
+      <header>
+        <h1>Nimbus</h1>
         <div className="logo-container">
-        <img src="/vite.svg" className="logo" alt="Vite logo" />
+          <img src="/vite.svg" className="logo" alt="Vite logo" />
         </div>
       </header>
       
@@ -167,7 +149,7 @@ const App: React.FC = () => {
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Enter City to start"
+            placeholder="Start typing a city..."
             onFocus={() => setShowSuggestions(true)}
           />
           {showSuggestions && suggestions.length > 0 && (
@@ -179,12 +161,11 @@ const App: React.FC = () => {
               ))}
             </ul>
           )}
-          <button onClick={fetchWeather} disabled={!selectedLocation}>Get Weather</button>
         </div>
-
+  
         {loading && <p>Loading...</p>}
         {error && <p className="error">{error}</p>}
-
+  
         {weatherData && selectedLocation && (
           <div className="weather-info">
             <h2>Current Weather in {selectedLocation.city}, {selectedLocation.country}</h2>
@@ -200,7 +181,7 @@ const App: React.FC = () => {
                 <p className="humidity">Humidity: {weatherData.current.main.humidity}%</p>
               </div>
             </div>
-
+  
             <h3>5-Day Forecast</h3>
             <div className="forecast">
               {weatherData.forecast.list.map((day, index) => (
@@ -220,6 +201,7 @@ const App: React.FC = () => {
       </main>
     </div>
   );
+  
 };
 
 export default App;

@@ -54,6 +54,7 @@ input, button {
   border-radius: 4px;
 }
 
+/* REMOVED BUTTON TO LEAN INTO DROPDOWN SUGGESTIONS
 button {
   cursor: pointer;
   background-color: #4CAF50;
@@ -62,6 +63,7 @@ button {
 button:hover {
   background-color: #45a049;
 }
+*/
 
 .weather-info {
   background-color: #2a2a2a;
