@@ -5,8 +5,12 @@ import requests
 import os
 from dotenv import load_dotenv
 
+#==================================================================================================================
+
 OPENWEATHERMAP_API_KEY = os.environ.get('OPENWEATHERMAP_API_KEY')
 BASE_URL = "https://api.openweathermap.org/data/2.5/forecast"
+GEO_URL = "http://api.openweathermap.org/geo/1.0/direct"
+load_dotenv('.flaskenv')
 load_dotenv('.flaskenv')
 
 app = Flask(__name__)
@@ -14,7 +18,35 @@ CORS(app)
 
 @app.route('/')
 def home():
-    return "Welcome to the Nimbus Flask Backend!"
+    return "Nimbus Flask Backend"
+
+#==================================================================================================================
+
+@app.route('/api/location-suggestions')
+def get_location_suggestions():
+    query = request.args.get('query')
+    if not query:
+        return jsonify({"error": "Query parameter is required"}), 400
+
+    url = f"{GEO_URL}?q={query}&limit=5&appid={OPENWEATHERMAP_API_KEY}"
+    response = requests.get(url)
+    
+    if response.status_code != 200:
+        return jsonify({"error": "Failed to fetch location suggestions"}), 500
+
+    suggestions = response.json()
+    formatted_suggestions = [
+        {
+            "name": f"{loc['name']}, {loc.get('state', '')}, {loc['country']}",
+            "lat": loc['lat'],
+            "lon": loc['lon']
+        }
+        for loc in suggestions
+    ]
+
+    return jsonify(formatted_suggestions)
+
+#==================================================================================================================
 
 @app.route('/api/weather')
 def get_weather():
@@ -46,6 +78,8 @@ def get_weather():
     }
 
     return jsonify(formatted_data)
+
+#==================================================================================================================
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
