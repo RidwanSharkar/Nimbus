@@ -12,7 +12,7 @@ body {
 }
 
 input {
-  padding: 0.5rem;
+  padding: 1.5rem;
   font-size: 1rem;
   background-color: #ffffff;
   color: #555;
@@ -22,7 +22,7 @@ input {
   background-color: #f8a9ab;
   border-radius: 30px;
   padding: 1rem;
-  margin-top: 33px;
+  margin-top: 2rem;
 }
 
 .forecast-day {
@@ -38,7 +38,7 @@ input {
   font-size: 16px;
   border: 2px solid #fac3c3;
   border-radius: 25px;
-  max-width: 60%;
+  max-width: 80%;
   margin-bottom: 5px;
 }
 
@@ -103,7 +103,8 @@ input {
 }
 
 header {
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
+  max-width: 300px;
 }
 
 h1 {
@@ -124,14 +125,26 @@ h2, h3 {
 }
 
 .logo {
-  height: 14em;
+  height: auto;
+  max-width: 100%;
+  min-height: 200px; 
+  max-height: 350px; 
 }
 
 .search-container {
-  display: flex;
-  justify-content: center;
-  gap: 0.5rem;
+  position: relative;
   width: 100%;
+  max-width: 400px; 
+  margin: 0 auto;
+}
+
+.search-container input {
+  width: 100%;
+  padding: 8px;
+  font-size: 16px;
+  border: 2px solid #fac3c3;
+  border-radius: 25px;
+  margin-bottom: 5px;
 }
 
 .current-weather {
@@ -186,6 +199,7 @@ h2, h3 {
   cursor: pointer;
   min-width: 60%;
 }
+
 
 @media (max-width: 768px) {
   .temperature {
