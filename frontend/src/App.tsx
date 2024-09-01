@@ -155,7 +155,7 @@ const App: React.FC = () => {
     <div className="App">
       <header>
         <div className="logo-container">
-        <img src="/src/assets/logo.svg" className="logo" alt="Nimbus" />
+        <img src="/src/assets/logo2.svg" className="logo" alt="Nimbus" />
         </div>
       </header>
       
