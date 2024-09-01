@@ -1,3 +1,4 @@
+/* Nimbus\frontend\src\App.css */
 /* COLOR SCHEMING==================================================================================================== */
 
 body {
@@ -21,7 +22,7 @@ input {
   background-color: #f8a9ab;
   border-radius: 30px;
   padding: 1rem;
-  margin-top: 3vh; /* Relative to viewport height */
+  margin-top: 33px;
 }
 
 .forecast-day {
@@ -59,7 +60,7 @@ input {
 }
 
 .suggestions-dropdown li:hover {
-  background-color: #89c0fa;
+  background-color: #89c0fa ;
 }
 
 .humidity {
@@ -72,7 +73,7 @@ input {
   margin-top: 1rem;
 }
 
-/* ================================================================================================================== */
+/*==================================================================================================================*/
 
 .top-container {
   width: 100%;
@@ -84,21 +85,21 @@ input {
 }
 
 #root {
-  display: flex;
+  display: flex-start;
   justify-content: center;
   align-items: center;
   height: 100vh;
 }
 
 .App {
-  max-width: 90%; 
+  max-width: 90%;
   padding: 1rem;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  flex-grow: 1;
+  justify-content: flex-start;
+  margin: 0 auto;
 }
 
 header {
@@ -115,36 +116,34 @@ h2, h3 {
   margin: 0rem;
 }
 
+
 .logo-container {
   display: flex;
   justify-content: center;
   gap: 1rem;
-  max-width: 100%; 
-  flex-wrap: wrap; 
 }
 
 .logo {
-  height: 12vw; 
-  max-height: 14em; 
+  height: 14em;
 }
 
 .search-container {
   display: flex;
   justify-content: center;
   gap: 0.5rem;
-  
+  width: 100%;
 }
 
 .current-weather {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 3.5vw; 
+  gap: 2.5rem;
 }
 
 .weather-icon {
-  width: 10vw;
-  max-width: 70px; 
+  width: 70px;
+  height: 70px;
 }
 
 .weather-details {
@@ -172,18 +171,18 @@ h2, h3 {
 
 .forecast-day p {
   margin: 0rem 0;
-  font-size: 1rem;
+  font-size: 15px;
 }
 
 .search-container {
   position: relative;
   width: 100%;
-  max-width: 80vw; 
+  max-width: 400px;
   margin: 0 auto;
 }
 
 .suggestions-dropdown li {
-  padding: 2px;
+  padding: 1px;
   cursor: pointer;
   min-width: 60%;
 }
