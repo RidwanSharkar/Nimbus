@@ -1,34 +1,117 @@
 /* Nimbus\frontend\src\App.css */
 
+
+/*COLOR SCHEMING====================================================================================================*/
+
 body {
-  background-color: #1e1e1e;
+  background-color: #fac3c3; /* ACTUAL BACKGROUND eca29f fac3c3 */
   color: #ffffff;
   font-family: Arial, sans-serif;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
   min-height: 100vh;
   margin: 0;
 }
 
-.App {
-  max-width: 800px;
+input {
+  padding: 0.5rem;
+  font-size: 1rem;
+  background-color: #ffffff;
+  color: #555;
+  border-radius: 4px;
+}
+
+.weather-info {
+  background-color: #f8a9ab;
+  border-radius: 85px;
   padding: 2rem;
+  margin-top: 35px;
+}
+
+.forecast-day {
+  background-color: #eb8585;
+  border-radius: 35px;
+  padding: 1rem;
+  flex: 1;
+}
+
+.search-container input {
+  width: 100%;
+  padding: 8px;
+  font-size: 16px;
+  border: 2px solid #fac3c3;
+  border-radius: 25px;
+  min-width: 380px;
+  margin-bottom: 5px;
+}
+
+.suggestions-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: #ed9e9d;
+  border: 0px transparent;
+  border-top: none;
+  border-radius: 25px;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 1000;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.suggestions-dropdown li:hover {
+  background-color: #428ddf ;
+}
+
+.humidity {
+  font-size: 1rem;
+  color: #ffffff;
+}
+
+.error {
+  color: #ff6b6b;
+  margin-top: 1rem;
+}
+
+/*==================================================================================================================*/
+
+.top-container {
+  width: 100%;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.App {
+  max-width: 100px;
+  padding: 1rem;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  flex-grow: 1;
 }
 
 header {
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 }
 
 h1 {
-  font-size: 2.5rem;
+  font-size: 2.0rem;
   margin-bottom: 1rem;
 }
+
+h2, h3 {
+  font-size: 1.75rem;
+  margin: 0rem;
+}
+
 
 .logo-container {
   display: flex;
@@ -37,54 +120,26 @@ h1 {
 }
 
 .logo {
-  height: 4em;
+  height: 14em;
 }
 
 .search-container {
   display: flex;
   justify-content: center;
   gap: 0.5rem;
-  margin-bottom: 2rem;
-}
-
-input, button {
-  padding: 0.5rem;
-  font-size: 1rem;
-  background-color: #333;
-  color: #fff;
-  border: 1px solid #555;
-  border-radius: 4px;
-}
-
-/* REMOVED BUTTON TO LEAN INTO DROPDOWN SUGGESTIONS
-button {
-  cursor: pointer;
-  background-color: #4CAF50;
-}
-
-button:hover {
-  background-color: #45a049;
-}
-*/
-
-.weather-info {
-  background-color: #2a2a2a;
-  border-radius: 8px;
-  padding: 2rem;
-  margin-top: 2rem;
+  margin-bottom: 1rem;
 }
 
 .current-weather {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 2rem;
-  margin-bottom: 2rem;
+  gap: 2.5rem;
 }
 
 .weather-icon {
-  width: 100px;
-  height: 100px;
+  width: 70px;
+  height: 70px;
 }
 
 .weather-details {
@@ -98,76 +153,30 @@ button:hover {
 
 .description {
   font-size: 1.5rem;
-  margin: 0.5rem 0;
+  margin: 0rem 0;
   text-transform: capitalize;
-}
-
-.humidity {
-  font-size: 1rem;
-  color: #ccc;
 }
 
 .forecast {
   display: flex;
   justify-content: space-between;
-  gap: 1rem;
-}
-
-.forecast-day {
-  background-color: #333;
-  border-radius: 8px;
-  padding: 1rem;
-  flex: 1;
+  gap: 0.5rem;
+  text-transform: capitalize;
 }
 
 .forecast-day p {
-  margin: 0.5rem 0;
+  margin: 0rem 0;
+  font-size: 15px;
 }
-
-.error {
-  color: #ff6b6b;
-  margin-top: 1rem;
-}
-
-/*==================================================================================================================*/
 
 .search-container {
   position: relative;
   width: 100%;
-  max-width: 400px;
+  max-width: 395px;
   margin: 0 auto;
 }
 
-.search-container input {
-  width: 100%;
-  padding: 10px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.suggestions-dropdown {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  background-color: #535353;
-  border: 1px solid #ccc;
-  border-top: none;
-  border-radius: 0 0 4px 4px;
-  max-height: 200px;
-  overflow-y: auto;
-  z-index: 1000;
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-}
-
 .suggestions-dropdown li {
-  padding: 10px;
+  padding: 2px;
   cursor: pointer;
-}
-
-.suggestions-dropdown li:hover {
-  background-color: #f0f0f0;
 }

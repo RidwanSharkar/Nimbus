@@ -138,9 +138,8 @@ const App: React.FC = () => {
   return (
     <div className="App">
       <header>
-        <h1>Nimbus</h1>
         <div className="logo-container">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
+        <img src="/src/assets/logo.svg" className="logo" alt="Nimbus" />
         </div>
       </header>
       
@@ -150,7 +149,7 @@ const App: React.FC = () => {
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Start typing a city..."
+            placeholder="Enter a city"
             onFocus={() => setShowSuggestions(true)}
           />
           {showSuggestions && suggestions.length > 0 && (
@@ -169,7 +168,7 @@ const App: React.FC = () => {
   
         {weatherData && selectedLocation && (
           <div className="weather-info">
-            <h2>Current Weather in {selectedLocation.city}, {selectedLocation.country}</h2>
+            <h2>Weather in {selectedLocation.city}</h2>
             <div className="current-weather">
               <img
                 src={`http://openweathermap.org/img/w/${weatherData.current.weather[0].icon}.png`}
@@ -183,7 +182,7 @@ const App: React.FC = () => {
               </div>
             </div>
   
-            <h3>5-Day Forecast</h3>
+            <h3>5 Day Forecast</h3>
             <div className="forecast">
               {weatherData.forecast.list.map((day, index) => (
                 <div key={index} className="forecast-day">
