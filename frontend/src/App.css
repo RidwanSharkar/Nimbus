@@ -18,19 +18,18 @@ input {
   font-size: 1rem;
   background-color: #ffffff;
   color: #555;
-  border-radius: 4px;
 }
 
 .weather-info {
   background-color: #f8a9ab;
-  border-radius: 85px;
-  padding: 2rem;
-  margin-top: 35px;
+  border-radius: 30px;
+  padding: 1rem;
+  margin-top: 33px;
 }
 
 .forecast-day {
   background-color: #eb8585;
-  border-radius: 35px;
+  border-radius: 20px;
   padding: 1rem;
   flex: 1;
 }
@@ -50,7 +49,7 @@ input {
   top: 100%;
   left: 0;
   right: 0;
-  background-color: #ed9e9d;
+  background-color: #b284a1;
   border: 0px transparent;
   border-top: none;
   border-radius: 25px;
@@ -63,7 +62,7 @@ input {
 }
 
 .suggestions-dropdown li:hover {
-  background-color: #428ddf ;
+  background-color: #6db4ff ;
 }
 
 .humidity {
@@ -99,11 +98,11 @@ input {
 }
 
 header {
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
 }
 
 h1 {
-  font-size: 2.0rem;
+  font-size: 1.5rem;
   margin-bottom: 1rem;
 }
 
@@ -127,7 +126,6 @@ h2, h3 {
   display: flex;
   justify-content: center;
   gap: 0.5rem;
-  margin-bottom: 1rem;
 }
 
 .current-weather {
@@ -147,7 +145,7 @@ h2, h3 {
 }
 
 .temperature {
-  font-size: 3rem;
+  font-size: 2.5rem;
   margin: 0;
 }
 
@@ -172,11 +170,11 @@ h2, h3 {
 .search-container {
   position: relative;
   width: 100%;
-  max-width: 395px;
+  max-width: 400px;
   margin: 0 auto;
 }
 
 .suggestions-dropdown li {
-  padding: 2px;
+  padding: 1px;
   cursor: pointer;
 }
