@@ -49,7 +49,7 @@ input {
   top: 100%;
   left: 0;
   right: 0;
-  background-color: #b284a1;
+  background-color: #ed7083;
   border: 0px transparent;
   border-top: none;
   border-radius: 25px;
@@ -62,7 +62,7 @@ input {
 }
 
 .suggestions-dropdown li:hover {
-  background-color: #6db4ff ;
+  background-color: #89c0fa ;
 }
 
 .humidity {

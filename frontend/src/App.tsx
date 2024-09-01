@@ -60,6 +60,22 @@ const App: React.FC = () => {
     return parts.filter(Boolean).join(', ');
   };
 
+  const formatDate = (date: Date) => {
+    const options: Intl.DateTimeFormatOptions = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
+    const formattedDate = date.toLocaleDateString('en-US', options);
+    const [weekday, ...rest] = formattedDate.split(', ');
+    return `${weekday}\n${rest.join(', ')}`;
+  };
+  
+  const generateForecastDates = (startDate: Date, days: number) => {
+    return Array.from({ length: days }, (_, i) => {
+      const date = new Date(startDate);
+      date.setDate(startDate.getDate() + i);
+      return formatDate(date);
+    });
+  };
+  
+
   //==================================================================================================================
 
   useEffect(() => {
@@ -183,20 +199,23 @@ const App: React.FC = () => {
             </div>
   
             <h3>5 Day Forecast</h3>
-            <div className="forecast">
-              {weatherData.forecast.list.map((day, index) => (
+          <div className="forecast">
+            {generateForecastDates(new Date(), 5).map((formattedDate, index) => {
+              const day = weatherData.forecast.list[index];
+              return (
                 <div key={index} className="forecast-day">
-                  <p>{new Date(day.dt_txt).toLocaleDateString()}</p>
+                  <p>{formattedDate}</p>
                   <img
                     src={`http://openweathermap.org/img/w/${day.weather[0].icon}.png`}
                     alt="Weather icon"
                   />
-                  <p>{day.main.temp.toFixed(1)}°C</p>
+                  <p>{day.main.temp.toFixed(1)}°F</p>
                   <p>{day.weather[0].description}</p>
                 </div>
-              ))}
-            </div>
+              );
+            })}
           </div>
+        </div>
         )}
       </main>
     </div>
