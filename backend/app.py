@@ -1,17 +1,14 @@
-# Nimbus\backend\app.py
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import requests
 import os
 from dotenv import load_dotenv
 
-#==================================================================================================================
 
+load_dotenv('.flaskenv')
 OPENWEATHERMAP_API_KEY = os.environ.get('OPENWEATHERMAP_API_KEY')
 BASE_URL = "https://api.openweathermap.org/data/2.5/forecast"
 GEO_URL = "http://api.openweathermap.org/geo/1.0/direct"
-load_dotenv('.flaskenv')
-load_dotenv('.flaskenv')
 
 app = Flask(__name__)
 CORS(app)
@@ -20,7 +17,6 @@ CORS(app)
 def home():
     return "Nimbus Flask Backend"
 
-#==================================================================================================================
 
 @app.route('/api/location-suggestions')
 def get_location_suggestions():
@@ -30,13 +26,13 @@ def get_location_suggestions():
 
     url = f"{GEO_URL}?q={query}&limit=5&appid={OPENWEATHERMAP_API_KEY}"
     response = requests.get(url)
-    
+
     if response.status_code != 200:
         return jsonify({"error": "Failed to fetch location suggestions"}), 500
 
     suggestions = response.json()
     formatted_suggestions = [
-        {       
+        {
             "name": loc['name'],
             "lat": loc['lat'],
             "lon": loc['lon'],
@@ -49,7 +45,6 @@ def get_location_suggestions():
 
     return jsonify(formatted_suggestions)
 
-#==================================================================================================================
 
 @app.route('/api/weather')
 def get_weather():
@@ -63,7 +58,7 @@ def get_weather():
 
     weather_url = f"{BASE_URL}?lat={lat}&lon={lon}&units=imperial&appid={OPENWEATHERMAP_API_KEY}"
     weather_response = requests.get(weather_url)
-    
+
     if weather_response.status_code != 200:
         return jsonify({"error": "Failed to fetch weather data"}), 500
 
@@ -93,7 +88,6 @@ def get_weather():
 
     return jsonify(formatted_data)
 
-#==================================================================================================================
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)

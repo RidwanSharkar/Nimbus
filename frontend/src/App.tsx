@@ -1,7 +1,7 @@
-// Nimbus\frontend\src\App.tsx
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import './App.css';
+import logo from './assets/logo2.svg';
 
 interface Location {
   name: string;
@@ -37,10 +37,9 @@ interface WeatherData {
   };
 }
 
-/*==========================================================================================================================*/
 
 const App: React.FC = () => {
-  const backendUrl = import.meta.env.VITE_REACT_APP_BACKEND_URL || 'http://localhost:5000';
+  const backendUrl = import.meta.env.VITE_REACT_APP_BACKEND_URL || 'http://www.nimbusweatherapp.com';
 
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState<Location[]>([]);
@@ -50,8 +49,6 @@ const App: React.FC = () => {
   const [error, setError] = useState('');
   const [showSuggestions, setShowSuggestions] = useState(false);
   const suggestionRef = useRef<HTMLUListElement>(null);
-
-  //==================================================================================================================
 
   const formatLocationName = (location: Omit<Location, 'city'>): string => {
     const parts = [location.name];
@@ -76,8 +73,6 @@ const App: React.FC = () => {
   };
   
 
-  //==================================================================================================================
-
   useEffect(() => {
     const fetchSuggestions = async () => {
       if (query.length < 3) {
@@ -101,7 +96,6 @@ const App: React.FC = () => {
     return () => clearTimeout(timeoutId);
   }, [query, backendUrl]);
 
-  //==================================================================================================================
 
   const fetchWeather = async (location: Location) => {
     setShowSuggestions(false);
@@ -125,7 +119,6 @@ const App: React.FC = () => {
     setLoading(false);
   };
 
-  //==================================================================================================================
 
   const handleSuggestionClick = (location: Location) => {
     setSelectedLocation(location);
@@ -135,7 +128,6 @@ const App: React.FC = () => {
     fetchWeather(location);
   };
 
-  //==================================================================================================================
 
     useEffect(() => {
       const handleClickOutside = (event: MouseEvent) => {
@@ -149,13 +141,12 @@ const App: React.FC = () => {
       };
     }, []);
 
-  //==================================================================================================================
 
   return (
     <div className="App">
       <header>
         <div className="logo-container">
-        <img src="/src/assets/logo2.svg" className="logo" alt="Nimbus" />
+    <img src={logo} className="logo" alt="Nimbus" />
         </div>
       </header>
       
