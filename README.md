@@ -1,4 +1,14 @@
-**Frontend:** React
-**Backend:** Flask
-**Hosting:** AWS Lightsail
-**Web Server:** Nginx
+**NIMBUS WEATHER APP**
+________________________________________________________________________________________________________________
+
+**OVERVIEW: **
+
+________________________________________________________________________________________________________________
+
+**TECH STACK:**
+
+• **Frontend:** React <br>
+• **Backend:** Flask <br>
+• **Hosting:** AWS Lightsail <br>
+• **Web Server:** Nginx <br>
+
