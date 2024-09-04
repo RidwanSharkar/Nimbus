@@ -7,6 +7,12 @@ ________________________________________________________________________________
 
 **OVERVIEW:**
 
+Fetch and display weather information for any location using API requests:
+
+• OpenWeather API for weather and forecast data
+
+• Geocoding API for location search dropdown suggestions
+
 ________________________________________________________________________________________________________________
 
 **TECH STACK:**
