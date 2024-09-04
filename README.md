@@ -9,7 +9,7 @@ ________________________________________________________________________________
 
 Fetch and display weather information for any location using API requests:
 
-• OpenWeather API for weather and forecast data
+• OpenWeather API for weather and 5-day forecast data
 
 • Geocoding API for location search dropdown suggestions
 
