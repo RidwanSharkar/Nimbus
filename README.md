@@ -7,6 +7,8 @@ ________________________________________________________________________________
 
 **OVERVIEW:**
 
+Real-time Weather App made with a React frontend, Flask backend to handle API requests, hosted by AWS Lightsail, and configured with Nginx to manage server requests.
+
 Fetch and display real-time weather information for any location using API requests:
 
 • OpenWeather API for weather and 5-day forecast data
@@ -14,6 +16,7 @@ Fetch and display real-time weather information for any location using API reque
 • Geocoding API for location search dropdown suggestions
 
 Made for a tech assessment ;)
+
 
 ________________________________________________________________________________________________________________
 
