@@ -7,11 +7,13 @@ ________________________________________________________________________________
 
 **OVERVIEW:**
 
-Fetch and display weather information for any location using API requests:
+Fetch and display real-time weather information for any location using API requests:
 
 • OpenWeather API for weather and 5-day forecast data
 
 • Geocoding API for location search dropdown suggestions
+
+Made for a tech assessment ;)
 
 ________________________________________________________________________________________________________________
 
@@ -21,4 +23,3 @@ ________________________________________________________________________________
 • **Backend:** Flask <br>
 • **Hosting:** AWS Lightsail <br>
 • **Web Server:** Nginx <br>
-
